@@ -2,7 +2,6 @@
 #include <HTTPClient.h>
 
 HTTPClient http;
-unsigned long user_id = 0;
 bool eth_connected = false;
 
 void WiFiEvent(WiFiEvent_t event) {
@@ -53,7 +52,7 @@ void WiFiEvent(WiFiEvent_t event) {
 }
 
 void testClient() {
-    http.begin("https://jsonplaceholder.org/users/" + String(user_id));
+    http.begin("https://10.230.0.46/api/v2/ping");
     int httpCode = http.GET();
 
     if (httpCode == HTTP_CODE_OK) {
@@ -62,7 +61,7 @@ void testClient() {
     } else {
         Serial.println();
         Serial.println("[HTTP] GET... failed, error: ");
-        Serial.println(http.errorToString(httpCode).c_str());
+        Serial.println(http.errorToString(httpCode));
     }
 
     http.end();
@@ -80,7 +79,6 @@ void setup() {
 
 void loop() {
     delay(5000);
-    user_id = (user_id % 10) + 1;
 
     if (eth_connected)
         testClient();
